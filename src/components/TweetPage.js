@@ -1,38 +1,36 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Tweet from './Tweet'
-import NewTweet from './NewTweet'
+import React, { useContext, useMemo } from "react";
+import Tweet from "./Tweet";
+import NewTweet from "./NewTweet";
+import { TweetContext } from "../state/contexts/tweets/tweetsContext";
 
-class TweetPage extends Component {
-  render() {
-    const { id, replies } = this.props
-    return (
-      <div>
-        <Tweet id={id} />
-        <NewTweet id={id} />
-        {replies.length !== 0 && <h3 className='center'>Replies</h3>}
-        
-        <ul>
-          {replies.map((replyId) => (
-            <li key={replyId}>
-              <Tweet id={replyId}/>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
-  }
-}
+export const TweetPage = (props) => {
+  const { id } = props.match.params;
+  const tweets = useContext(TweetContext);
+  const replies = useMemo(
+    () =>
+      !tweets[id]
+        ? []
+        : tweets[id].replies.sort(
+            (a, b) => tweets[b].timestamp - tweets[a].timestamp
+          ),
+    [tweets]
+  );
 
-function mapStateToProps ({ authedUser, tweets, users }, props) {
-    const { id } = props.match.params
+  return (
+    <div>
+      <Tweet id={id} />
+      <NewTweet id={id} />
+      {replies.length !== 0 && <h3 className="center">Replies</h3>}
 
-    return {
-      id,
-      replies: !tweets[id]
-      ? []
-      : tweets[id].replies.sort((a,b,) => tweets[b].timestamp - tweets[a].timestamp)
-  }
-}
+      <ul>
+        {replies.map((replyId) => (
+          <li key={replyId}>
+            <Tweet id={replyId} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-export default connect(mapStateToProps)(TweetPage) 
+export default TweetPage;

@@ -1,22 +1,23 @@
 import React from "react";
 import "./index.css";
 import App from "./components/App";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
-import reducer from "./reducers";
-import middleware from "./middleware";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
-const store = createStore(reducer, middleware);
+import { UsersState } from "./state/contexts/users/UsersState";
+import { TweetsState } from "./state/contexts/tweets/TweetsState";
+import { AuthedUsersState } from "./state/contexts/authedUser/AuthedUserState";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <UsersState>
+      <TweetsState>
+        <AuthedUsersState>
+          <App />
+        </AuthedUsersState>
+      </TweetsState>
+    </UsersState>
   </StrictMode>
 );
