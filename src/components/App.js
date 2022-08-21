@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import NewTweet from "./NewTweet";
 import TweetPage from "./TweetPage";
@@ -12,11 +12,11 @@ export const App = () => {
         <div className="container">
           <Nav />
 
-          <div>
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/tweet/:id" component={TweetPage} />
-            <Route path="/new" component={NewTweet} />
-          </div>
+          <Routes>
+            <Route index element={<Dashboard />} />
+            <Route path="/tweet/:id" element={<TweetPage />} />
+            <Route path="/new" element={<NewTweet />} />
+          </Routes>
         </div>
       </>
     </Router>

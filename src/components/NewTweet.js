@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { addTweet } from "../state/actions/tweets";
 import { TweetContext } from "../state/contexts/tweets/tweetsContext";
 import { AuthedUserContext } from "../state/contexts/authedUser/authedUserContext";
@@ -25,7 +25,7 @@ export const NewTweet = ({ id }) => {
   };
 
   if (toHome === true) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   const tweetLeft = 280 - text.length;

@@ -5,7 +5,7 @@ import {
   TiHeartOutline,
   TiHeartFullOutline,
 } from "react-icons/ti/index";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TweetContext } from "../state/contexts/tweets/tweetsContext";
 import { AuthedUserContext } from "../state/contexts/authedUser/authedUserContext";
 import { UsersContext } from "../state/contexts/users/usersContext";
@@ -63,11 +63,11 @@ export const Tweet = ({ id }) => {
     });
   };
 
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const toParent = (e, id) => {
     e.preventDefault();
-    history.push(`/tweet/${id}`);
+    navigate(`/tweet/${id}`);
   };
 
   if (tweet === null) {
