@@ -18,10 +18,12 @@ export const NewTweet = ({ id }) => {
       text,
       author: authedUser,
       replyingTo: id,
-    }).then((tweet) => dispatch(addTweet(tweet)));
+    }).then((tweet) => {
+      dispatch(addTweet(tweet));
+    });
 
-    setText("");
     setToHome(id ? false : true);
+    setText("");
   };
 
   if (toHome === true) {
