@@ -5,7 +5,7 @@ import { receiveTweets } from "../../actions/tweets";
 import tweets from "../../reducers/tweets/tweetsReducer";
 
 export const TweetsState = ({ children }) => {
-  const [state, dispatch] = useReducer(tweets, {});
+  const [tweetsData, dispatch] = useReducer(tweets, {});
 
   useEffect(() => {
     getInitialData().then(({ tweets }) => {
@@ -14,6 +14,8 @@ export const TweetsState = ({ children }) => {
   }, []);
 
   return (
-    <TweetContext.Provider value={state}>{children}</TweetContext.Provider>
+    <TweetContext.Provider value={{ tweetsData, dispatch }}>
+      {children}
+    </TweetContext.Provider>
   );
 };

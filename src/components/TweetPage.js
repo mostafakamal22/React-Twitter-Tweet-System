@@ -5,15 +5,15 @@ import { TweetContext } from "../state/contexts/tweets/tweetsContext";
 
 export const TweetPage = (props) => {
   const { id } = props.match.params;
-  const tweets = useContext(TweetContext);
+  const { tweetsData } = useContext(TweetContext);
   const replies = useMemo(
     () =>
-      !tweets[id]
+      !tweetsData[id]
         ? []
-        : tweets[id].replies.sort(
-            (a, b) => tweets[b].timestamp - tweets[a].timestamp
+        : tweetsData[id].replies.sort(
+            (a, b) => tweetsData[b].timestamp - tweetsData[a].timestamp
           ),
-    [tweets]
+    [tweetsData]
   );
 
   return (

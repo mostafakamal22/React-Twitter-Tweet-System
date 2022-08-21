@@ -5,47 +5,70 @@ import {
   TiHeartOutline,
   TiHeartFullOutline,
 } from "react-icons/ti/index";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { TweetContext } from "../state/contexts/tweets/tweetsContext";
 import { AuthedUserContext } from "../state/contexts/authedUser/authedUserContext";
 import { UsersContext } from "../state/contexts/users/usersContext";
+import { toggleTweet } from "../state/actions/tweets";
+import { saveLikeToggle } from "../utils/api";
 
 export const Tweet = ({ id }) => {
-  const tweets = useContext(TweetContext);
+  const { tweetsData, dispatch } = useContext(TweetContext);
   const users = useContext(UsersContext);
   const authedUser = useContext(AuthedUserContext);
-  const parentTweet = tweets[id] ? tweets[tweets[id].replyingTo] : null;
+  const parentTweet = tweetsData[id]
+    ? tweetsData[tweetsData[id].replyingTo]
+    : null;
 
   const tweet = useMemo(
     () =>
-      tweets[id]
+      tweetsData[id]
         ? formatTweet(
-            tweets[id],
-            users[tweets[id].author],
+            tweetsData[id],
+            users[tweetsData[id].author],
             authedUser,
             parentTweet
           )
         : null,
-    [users, tweets, authedUser]
+    [users, tweetsData, authedUser]
   );
 
-  // handleLike = (e) => {
-  //   e.preventDefault();
+  const handleLike = (e) => {
+    e.preventDefault();
 
-  //   const { dispatch, tweet, authedUser } = this.props;
+    //toggle tweet in state
+    dispatch(
+      toggleTweet({
+        id: tweet.id,
+        hasLiked: tweet.hasLiked,
+        authedUser,
+      })
+    );
 
-  //   dispatch(
-  //     handleToggleTweet({
-  //       id: tweet.id,
-  //       hasLiked: tweet.hasLiked,
-  //       authedUser,
-  //     })
-  //   );
-  // };
-  // toParent = (e, id) => {
-  //   e.preventDefault();
-  //   this.props.history.push(`/tweet/${id}`);
-  // };
+    //toggle tweet in the backend too
+    saveLikeToggle({
+      id: tweet.id,
+      hasLiked: tweet.hasLiked,
+      authedUser,
+    }).catch((e) => {
+      console.warn("Error in handleToggleTweet: ", e);
+      dispatch(
+        toggleTweet({
+          id: tweet.id,
+          hasLiked: tweet.hasLiked,
+          authedUser,
+        })
+      );
+      alert("The was an error liking the tweet. Try again.");
+    });
+  };
+
+  let history = useHistory();
+
+  const toParent = (e, id) => {
+    e.preventDefault();
+    history.push(`/tweet/${id}`);
+  };
 
   if (tweet === null) {
     return <p>This Tweet doesn't existd</p>;
@@ -62,7 +85,10 @@ export const Tweet = ({ id }) => {
           <span>{name}</span>
           <div>{formatDate(timestamp)}</div>
           {parent && (
-            <button className="replying-to" onClick={(e) => e.preventDefault()}>
+            <button
+              className="replying-to"
+              onClick={(e) => toParent(e, parent.id)}
+            >
               Replying to @{parent.author}
             </button>
           )}
@@ -71,7 +97,7 @@ export const Tweet = ({ id }) => {
         <div className="tweet-icons">
           <TiArrowBackOutline className="tweet-icon" />
           <span>{replies !== 0 && replies}</span>
-          <button className="heart-button" onClick={(e) => e.preventDefault()}>
+          <button className="heart-button" onClick={(e) => handleLike(e)}>
             {hasLiked === true ? (
               <TiHeartFullOutline color="#e0245e" className="tweet-icon" />
             ) : (

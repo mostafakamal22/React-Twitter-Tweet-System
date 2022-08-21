@@ -3,11 +3,11 @@ import Tweet from "./Tweet";
 import { TweetContext } from "../state/contexts/tweets/tweetsContext";
 
 export const Dashboard = () => {
-  let tweets = useContext(TweetContext);
+  let { tweetsData } = useContext(TweetContext);
   const sortedTweets = useMemo(() =>
-    Object.keys(tweets).sort(
-      (a, b) => tweets[b].timestamp - tweets[a].timestamp,
-      [tweets]
+    Object.keys(tweetsData).sort(
+      (a, b) => tweetsData[b].timestamp - tweetsData[a].timestamp,
+      [tweetsData]
     )
   );
 
