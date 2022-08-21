@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 import { receiveUsers } from "../../actions/users";
-import users from "../../../reducers/users";
+import users from "../../reducers/users/usersReducer";
 import { getInitialData } from "../../../utils/api";
 import { UsersContext } from "./usersContext";
 
