@@ -9,7 +9,7 @@ import { AuthedUsersState } from "./state/contexts/authedUser/AuthedUserState";
 import { LoadingState } from "./state/contexts/loading/LoadingState";
 
 const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+const root = createRoot(rootElement!);
 
 root.render(
   <StrictMode>
