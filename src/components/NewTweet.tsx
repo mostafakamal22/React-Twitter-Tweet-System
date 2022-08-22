@@ -5,13 +5,17 @@ import { TweetContext } from "../state/contexts/tweets/tweetsContext";
 import { AuthedUserContext } from "../state/contexts/authedUser/authedUserContext";
 import { saveTweet } from "../utils/api";
 
-export const NewTweet = ({ id }) => {
+type NewTweetProps = {
+  id?: string;
+};
+
+export const NewTweet = ({ id }: NewTweetProps): JSX.Element => {
   const { dispatch } = useContext(TweetContext);
   const authedUser = useContext(AuthedUserContext);
   const [text, setText] = useState("");
   const [toHome, setToHome] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
     saveTweet({

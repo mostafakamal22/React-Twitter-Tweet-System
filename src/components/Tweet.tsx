@@ -12,7 +12,11 @@ import { UsersContext } from "../state/contexts/users/usersContext";
 import { toggleTweet } from "../state/actions/tweets";
 import { saveLikeToggle } from "../utils/api";
 
-export const Tweet = ({ id }) => {
+type TweetTypes = {
+  id: string;
+};
+
+export const Tweet = ({ id }: TweetTypes): JSX.Element => {
   const { tweetsData, dispatch } = useContext(TweetContext);
   const users = useContext(UsersContext);
   const authedUser = useContext(AuthedUserContext);
@@ -33,29 +37,31 @@ export const Tweet = ({ id }) => {
     [users, tweetsData, authedUser]
   );
 
-  const handleLike = (e) => {
+  const handleLike = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
     e.preventDefault();
 
     //toggle tweet in state
     dispatch(
       toggleTweet({
-        id: tweet.id,
-        hasLiked: tweet.hasLiked,
+        id: tweet?.id,
+        hasLiked: tweet?.hasLiked,
         authedUser,
       })
     );
 
     //toggle tweet in the backend too
     saveLikeToggle({
-      id: tweet.id,
-      hasLiked: tweet.hasLiked,
+      id: tweet?.id,
+      hasLiked: tweet?.hasLiked,
       authedUser,
     }).catch((e) => {
       console.warn("Error in handleToggleTweet: ", e);
       dispatch(
         toggleTweet({
-          id: tweet.id,
-          hasLiked: tweet.hasLiked,
+          id: tweet?.id,
+          hasLiked: tweet?.hasLiked,
           authedUser,
         })
       );
@@ -65,7 +71,10 @@ export const Tweet = ({ id }) => {
 
   let navigate = useNavigate();
 
-  const toParent = (e, id) => {
+  const toParent = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string
+  ): void => {
     e.preventDefault();
     navigate(`/tweet/${id}`);
   };

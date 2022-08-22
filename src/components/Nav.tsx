@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-export default function Nav() {
+export default function Nav(): JSX.Element {
   return (
     <nav className="nav">
       <ul>

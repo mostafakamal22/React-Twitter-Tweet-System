@@ -7,7 +7,7 @@ import Nav from "./Nav";
 import { LoadingContext } from "../state/contexts/loading/loadingContext";
 import { LoadingSpinner } from "./LoadingSpinner";
 
-export const App = () => {
+const App = (): JSX.Element => {
   const { isLoading } = useContext(LoadingContext);
 
   return (
