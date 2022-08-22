@@ -1,7 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
+import usersReducer from "../features/users/usersSlice";
+import tweetsReducer from "../features/tweets/tweetsSlice";
+import authedUserReducer from "../features/authedUser/authedUserSlice";
+import isLoadingReducer from "../features/isLoading/isLoadingSlice";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    users: usersReducer,
+    tweets: tweetsReducer,
+    authedUser: authedUserReducer,
+    isLoading: isLoadingReducer,
+  },
 });
 
 export default store;
