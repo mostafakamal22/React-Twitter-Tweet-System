@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type InitialState = {
   authedUser: string | null;
@@ -14,10 +14,12 @@ const authedUserSlice = createSlice({
   name: "authedUser",
   initialState,
   reducers: {
-    setAuthedUser: (state, action) => {
+    setAuthedUser: (state, action: PayloadAction<string>) => {
       state.authedUser = action.payload;
     },
   },
 });
 
 export default authedUserSlice.reducer;
+
+export const { setAuthedUser } = authedUserSlice.actions;

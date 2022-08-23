@@ -1,17 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { addTweet } from "../state/actions/tweets";
-import { TweetContext } from "../state/contexts/tweets/tweetsContext";
-import { AuthedUserContext } from "../state/contexts/authedUser/authedUserContext";
 import { saveTweet } from "../utils/api";
+import { useAppDispatch, useAppSelector } from "../state/app/hooks";
+import { addTweet } from "../state/features/tweets/tweetsSlice";
 
 type NewTweetProps = {
   id?: string;
 };
 
 export const NewTweet = ({ id }: NewTweetProps): JSX.Element => {
-  const { dispatch } = useContext(TweetContext);
-  const authedUser = useContext(AuthedUserContext);
+  const dispatch = useAppDispatch();
+  const { authedUser } = useAppSelector((state) => state.authedUser);
+
   const [text, setText] = useState("");
   const [toHome, setToHome] = useState(false);
 

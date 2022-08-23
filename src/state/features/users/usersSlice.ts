@@ -8,15 +8,16 @@ type UserObj = {
   tweets: string[];
 };
 
-type User = {
-  userName: UserObj;
-};
-type InitialState = {
-  users: User[];
-};
+type InitialState =
+  | {
+      users: { [userName: string]: UserObj };
+    }
+  | {
+      users: {};
+    };
 
 const initialState: InitialState = {
-  users: [],
+  users: {},
 };
 
 // Generates pending, fulfilled and rejected action types
@@ -34,12 +35,16 @@ const usersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchUsers.fulfilled,
-      (state, action: PayloadAction<User[]>) => {
-        state.users = action.payload;
-      }
-    );
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.users = {};
+      })
+      .addCase(
+        fetchUsers.fulfilled,
+        (state, action: PayloadAction<InitialState>) => {
+          state.users = { ...action.payload };
+        }
+      );
   },
 });
 

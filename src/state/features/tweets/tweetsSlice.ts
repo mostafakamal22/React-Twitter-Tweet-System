@@ -11,16 +11,16 @@ type TweetObj = {
   replyingTo: null | string;
 };
 
-type Tweet = {
-  tweetID: TweetObj;
-};
-
-type InitialState = {
-  Tweets: Tweet[];
-};
+type InitialState =
+  | {
+      tweets: { [tweetID: string]: TweetObj };
+    }
+  | {
+      tweets: {};
+    };
 
 const initialState: InitialState = {
-  Tweets: [],
+  tweets: {},
 };
 
 // Generates pending, fulfilled and rejected action types
@@ -36,15 +36,50 @@ export const fetchTweets = createAsyncThunk("tweets/fetchTweets", async () => {
 const tweetsSlice = createSlice({
   name: "tweets",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(
-      fetchTweets.fulfilled,
-      (state, action: PayloadAction<Tweet[]>) => {
-        state.Tweets = action.payload;
+  reducers: {
+    toggleTweet: (state, action) => {
+      state.tweets[action.payload.id] = {
+        ...state.tweets[action.payload.id],
+        likes:
+          action.payload.hasLiked === true
+            ? state.tweets[action.payload.id].likes.filter(
+                (uid: string) => uid !== action.payload.authedUser
+              )
+            : state.tweets[action.payload.id].likes.concat([
+                action.payload.authedUser,
+              ]),
+      };
+    },
+    addTweet: (state, action) => {
+      const tweet = action.payload;
+
+      let replyingTo = {};
+      if (tweet.replyingTo !== null) {
+        replyingTo = {
+          [tweet.replyingTo]: {
+            ...state.tweets[tweet.replyingTo],
+            replies: state.tweets[tweet.replyingTo].replies.concat([tweet.id]),
+          },
+        };
       }
-    );
+
+      state.tweets = { ...state.tweets, [tweet.id]: tweet, ...replyingTo };
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTweets.pending, (state) => {
+        state.tweets = {};
+      })
+      .addCase(
+        fetchTweets.fulfilled,
+        (state, action: PayloadAction<InitialState>) => {
+          state.tweets = { ...action.payload };
+        }
+      );
   },
 });
 
 export default tweetsSlice.reducer;
+
+export const { toggleTweet, addTweet } = tweetsSlice.actions;

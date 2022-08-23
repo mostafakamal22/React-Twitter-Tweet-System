@@ -1,15 +1,16 @@
-import React, { useContext, useMemo } from "react";
+import React, { useMemo } from "react";
 import Tweet from "./Tweet";
-import { TweetContext } from "../state/contexts/tweets/tweetsContext";
+import { useAppSelector } from "../state/app/hooks";
 
 export const Dashboard = (): JSX.Element => {
-  let { tweetsData } = useContext(TweetContext);
+  const { tweets } = useAppSelector((state) => state.tweets);
+
   const sortedTweets = useMemo(
     () =>
-      Object.keys(tweetsData).sort(
-        (a, b) => tweetsData[b].timestamp - tweetsData[a].timestamp
+      Object.keys(tweets).sort(
+        (a, b) => tweets[b].timestamp - tweets[a].timestamp
       ),
-    [tweetsData]
+    [tweets]
   );
 
   return (

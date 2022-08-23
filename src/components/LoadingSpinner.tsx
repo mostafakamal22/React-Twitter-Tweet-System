@@ -3,7 +3,8 @@ import { HashLoader } from "react-spinners";
 
 const override: CSSProperties = {
   display: "block",
-  margin: "0 auto",
+  margin: "auto",
+  height: "75vh",
 };
 
 export const LoadingSpinner = (): JSX.Element => {

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useMemo } from "react";
 import { formatTweet, formatDate } from "../utils/helpers";
 import {
   TiArrowBackOutline,
@@ -6,35 +6,33 @@ import {
   TiHeartFullOutline,
 } from "react-icons/ti/index";
 import { Link, useNavigate } from "react-router-dom";
-import { TweetContext } from "../state/contexts/tweets/tweetsContext";
-import { AuthedUserContext } from "../state/contexts/authedUser/authedUserContext";
-import { UsersContext } from "../state/contexts/users/usersContext";
-import { toggleTweet } from "../state/actions/tweets";
 import { saveLikeToggle } from "../utils/api";
+import { useAppDispatch, useAppSelector } from "../state/app/hooks";
+import { toggleTweet } from "../state/features/tweets/tweetsSlice";
 
 type TweetTypes = {
   id: string;
 };
 
 export const Tweet = ({ id }: TweetTypes): JSX.Element => {
-  const { tweetsData, dispatch } = useContext(TweetContext);
-  const users = useContext(UsersContext);
-  const authedUser = useContext(AuthedUserContext);
-  const parentTweet = tweetsData[id]
-    ? tweetsData[tweetsData[id].replyingTo]
-    : null;
+  const dispatch = useAppDispatch();
+  const { users } = useAppSelector((state) => state.users);
+  const { authedUser } = useAppSelector((state) => state.authedUser);
+  const { tweets } = useAppSelector((state) => state.tweets);
+
+  const parentTweet = tweets[id] ? tweets[tweets[id].replyingTo] : null;
 
   const tweet = useMemo(
     () =>
-      tweetsData[id]
+      tweets[id] && users[tweets[id].author]
         ? formatTweet(
-            tweetsData[id],
-            users[tweetsData[id].author],
+            tweets[id],
+            users[tweets[id].author],
             authedUser,
             parentTweet
           )
         : null,
-    [users, tweetsData, authedUser]
+    [users, tweets, authedUser]
   );
 
   const handleLike = (
