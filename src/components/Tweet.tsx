@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { saveLikeToggle } from "../utils/api";
 import { useAppDispatch, useAppSelector } from "../state/app/hooks";
 import { toggleTweet } from "../state/features/tweets/tweetsSlice";
+import ProfileImage from "./ProfileImage";
 
 type TweetTypes = {
   id: string;
@@ -86,7 +87,8 @@ export const Tweet = ({ id }: TweetTypes): JSX.Element => {
 
   return (
     <Link to={`/tweet/${tweet.id}`} className="tweet">
-      <img src={avatar} alt={`Avatar of ${name}`} className="avatar" />
+      <ProfileImage src={avatar} alt={`Avatar of ${name}`} />
+      {/* <img src={avatar} alt={`Avatar of ${name}`} className="avatar" /> */}
       <div className="tweet-info">
         <div>
           <span>{name}</span>
