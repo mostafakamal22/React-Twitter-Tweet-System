@@ -7,7 +7,7 @@ export default function Nav(): JSX.Element {
       <ul>
         <li>
           <NavLink
-            to="/"
+            to="/twitter-tweet-system/"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             Home
@@ -15,7 +15,7 @@ export default function Nav(): JSX.Element {
         </li>
         <li>
           <NavLink
-            to="/new"
+            to="/twitter-tweet-system/new"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             New Tweet

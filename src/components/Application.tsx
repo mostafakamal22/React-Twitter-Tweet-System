@@ -31,8 +31,11 @@ const App = (): JSX.Element => {
           {!isLoading ? (
             <Routes>
               <Route index element={<Dashboard />} />
-              <Route path="/tweet/:id" element={<TweetPage />} />
-              <Route path="/new" element={<NewTweet />} />
+              <Route
+                path="/twitter-tweet-system/tweet/:id"
+                element={<TweetPage />}
+              />
+              <Route path="/twitter-tweet-system/new" element={<NewTweet />} />
 
               <Route index element={<NewTweet />} />
             </Routes>
