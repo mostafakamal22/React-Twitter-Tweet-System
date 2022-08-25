@@ -31,7 +31,7 @@ export const NewTweet = ({ id }: NewTweetProps): JSX.Element => {
   };
 
   if (toHome === true) {
-    return <Navigate to="/" />;
+    return <Navigate to="/twitter-tweet-system/" />;
   }
 
   const tweetLeft = 280 - text.length;

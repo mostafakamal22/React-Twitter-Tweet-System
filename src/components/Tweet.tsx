@@ -75,7 +75,7 @@ export const Tweet = ({ id }: TweetTypes): JSX.Element => {
     id: string
   ): void => {
     e.preventDefault();
-    navigate(`/tweet/${id}`);
+    navigate(`/twitter-tweet-system/tweet/${id}`);
   };
 
   if (tweet === null) {
