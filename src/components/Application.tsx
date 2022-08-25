@@ -30,14 +30,12 @@ const App = (): JSX.Element => {
           <Nav />
           {!isLoading ? (
             <Routes>
-              <Route index element={<Dashboard />} />
+              <Route path="/twitter-tweet-system/" element={<Dashboard />} />
               <Route
                 path="/twitter-tweet-system/tweet/:id"
                 element={<TweetPage />}
               />
               <Route path="/twitter-tweet-system/new" element={<NewTweet />} />
-
-              <Route index element={<NewTweet />} />
             </Routes>
           ) : (
             <LoadingSpinner />
