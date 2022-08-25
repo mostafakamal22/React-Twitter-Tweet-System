@@ -86,7 +86,7 @@ export const Tweet = ({ id }: TweetTypes): JSX.Element => {
     tweet;
 
   return (
-    <Link to={`/tweet/${tweet.id}`} className="tweet">
+    <Link to={`/twitter-tweet-system/tweet/${tweet.id}`} className="tweet">
       <ProfileImage src={avatar} alt={`Avatar of ${name}`} />
       {/* <img src={avatar} alt={`Avatar of ${name}`} className="avatar" /> */}
       <div className="tweet-info">
