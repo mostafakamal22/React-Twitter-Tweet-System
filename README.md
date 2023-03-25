@@ -1,4 +1,4 @@
-# Chirper Project
+# React Twitter Tweets System
 
 ![React-Twitter-Tweet-System](https://socialify.git.ci/mostafakamal22/React-Twitter-Tweet-System/image?description=1&font=Bitter&language=1&name=1&owner=1&pattern=Brick%20Wall&stargazers=1&theme=Auto)
 
